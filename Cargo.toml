@@ -1,0 +1,2 @@
+[workspace]
+members = ["diesel-insert-derive", "tests"]
