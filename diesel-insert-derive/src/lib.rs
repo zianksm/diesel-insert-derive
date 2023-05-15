@@ -52,7 +52,7 @@ pub fn auto_insert(
                 }
             };
 
-            // println!("{}", ts.to_string());
+            println!("{}", ts.to_string());
 
             ts.into()
         }

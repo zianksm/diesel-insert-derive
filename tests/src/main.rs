@@ -1,4 +1,4 @@
-use diesel_insert_derive::exclude;
+use diesel_insert_derive::{auto_insert, exclude};
 
 diesel::table! {
     accounts (id) {
@@ -8,7 +8,7 @@ diesel::table! {
         password -> Varchar,
     }
 }
-#[diesel_insert_derive::auto_insert(table_name = accounts)]
+#[auto_insert(table_name = accounts)]
 #[exclude(id)]
 pub struct TestTable {
     pub id: i64,
