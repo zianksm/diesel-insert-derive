@@ -1,9 +1,18 @@
-use diesel::Insertable;
 
-
-#[diesel_insert_derive::auto_insert(table_name = some_table)]
+diesel::table! {
+    accounts (id) {
+        id -> Int8,
+        name -> Text,
+        phone -> Varchar,
+        password -> Varchar,
+    }
+}
+#[diesel_insert_derive::auto_insert(table_name = accounts)]
 pub struct TestTable {
-    id: i64,
+    pub id: i64,
+    pub name: String,
+    pub phone: String,
+    pub password: String,
 }
 
 fn main() {

@@ -1,5 +1,7 @@
+use std::cell::RefCell;
+
 use quote::ToTokens;
-use syn::{parse_macro_input, Data, DeriveInput};
+use syn::{parse_macro_input, Data, DeriveInput, Visibility};
 
 #[proc_macro_attribute]
 pub fn auto_insert(
@@ -14,7 +16,13 @@ pub fn auto_insert(
             let mut pub_fields = Vec::new();
             let mut fields = Vec::new();
 
-            for field in str.fields {
+            for mut field in str.fields {
+                match field.vis {
+                    syn::Visibility::Public(_) => {
+                        std::mem::replace(&mut field.vis, Visibility::Inherited);
+                    }
+                    _ => (),
+                };
                 fields_idents.push(field.ident.clone());
                 fields.push(field.clone());
                 pub_fields.push(quote::quote! {pub #field});
@@ -33,7 +41,7 @@ pub fn auto_insert(
             let diesel_args = quote::quote!(#attr);
 
             let ts = quote::quote! {
-                #[derive(Debug,Clone,Insertable)]
+                #[derive(Debug,Clone,diesel::Insertable)]
                 #[diesel(#diesel_args)]
                 pub struct #name{
                     #(#pub_fields),*
