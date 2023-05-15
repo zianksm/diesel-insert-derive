@@ -1,6 +1,5 @@
 use std::{
-    cell::RefCell,
-    collections::{HashMap, HashSet},
+    collections::{HashSet},
 };
 
 use quote::ToTokens;
@@ -8,7 +7,7 @@ use syn::{parse::Parser, parse_macro_input, Attribute, Data, DeriveInput, Visibi
 
 #[proc_macro_attribute]
 pub fn exclude(
-    attr: proc_macro::TokenStream,
+    _attr: proc_macro::TokenStream,
     item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
     item
@@ -69,7 +68,7 @@ impl Parser for ExcludeArgsParser {
 
     fn parse2(self, tokens: proc_macro2::TokenStream) -> syn::Result<Self::Output> {
         let args = tokens.to_string();
-        let args = args.split_terminator(",").collect::<Vec<&str>>();
+        let args = args.split_terminator(',').collect::<Vec<&str>>();
         let args = args
             .into_iter()
             .map(|c| c.trim().to_string())
@@ -92,7 +91,7 @@ fn parse_attr(attr: Vec<Attribute>) -> Result<Option<Args>, proc_macro::TokenStr
             let span = attribute.path().get_ident().unwrap().span();
             let msg = format!(
                 "unknown identifier! got : {}.\n valid one is : \"exclude\"",
-                attribute.path().get_ident().unwrap().to_string()
+                attribute.path().get_ident().unwrap()
             );
 
             let e = err(span, &msg);

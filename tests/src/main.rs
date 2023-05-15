@@ -1,6 +1,5 @@
 use diesel_insert_derive::exclude;
 
-
 diesel::table! {
     accounts (id) {
         id -> Int8,
@@ -17,8 +16,6 @@ pub struct TestTable {
     pub phone: String,
     pub password: String,
 }
-
-
 
 fn main() {
     println!("Testing");
